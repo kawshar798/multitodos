@@ -17,6 +17,8 @@ const ListItem = ({todo, toggleSelect, toggleComplete}) => {
                              <h4>{todo.text}</h4>
                             <p>{todo.time.toDateString()}</p>
                         </div>
+
+                        <test></test>
                         <Button
                         className='ml-auto'
                         color={todo.isComplete ? 'danger' : 'success'}
@@ -58,4 +60,4 @@ ListView.propTypes = {
     toggleComplete:PropTypes.func.isRequired
 };
 
-export defualt ListView;
+export default ListView;
