@@ -1,22 +1,61 @@
 import React from 'react';
-import ListItem from '../ListItem'
-import { ListGroup } from 'reactstrap';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const ListView = ({ todos, toggleSelect, toggleComplete }) => {
-    return (
-        <ListGroup>
-            {todos.map(item => (
-                <ListItem key={item.id} todo={item} toggleSelect={toggleSelect} toggleComplete={toggleComplete} />
-            ))}
+import { ListGroupItem, CustomInput, Button, ListGroup } from 'reactstrap';
 
-        </ListGroup>
-    );
-};
+const ListItem = ({todo, toggleSelect, toggleComplete}) => {
+    return(
+        <ListGroupItem className='d-flex align-items-center'>
+                        <CustomInput 
+                        type="checkbox"
+                        id={todo.id}
+                        checked={todo.isSelect}
+                        onChange={ () => toggleComplete(todo.id)}
+                        />
 
-ListView.prototype ={
-    todos: PropTypes.object.isRequired,
+                        <div className="mx-3">
+                             <h4>{todo.text}</h4>
+                            <p>{todo.time.toDateString()}</p>
+                        </div>
+                        <Button
+                        className='ml-auto'
+                        color={todo.isComplete ? 'danger' : 'success'}
+                        onClick={ () => toggleComplete(todo.id)}
+                        >
+                            { todo.isComplete ? 'Completed' : 'Running'}
+                        </Button>
+        </ListGroupItem>
+    )
+
+}
+
+ListItem.prototype = {
+    todo:PropTypes.object.isRequired,
     toggleComplete:PropTypes.func.isRequired,
     toggleSelect:PropTypes.func.isRequired
+    
 }
-export default ListView;
+
+const ListView = ({todos,toggleSelect,toggleComplete}) => {
+    return (
+        <ListGroup>
+            {
+                todos.map(todo => (
+                    <ListItem 
+                    key={todo.id}
+                    todo={todo}
+                    toggleSelect={toggleSelect}
+                    toggleComplete={toggleComplete}
+                    />
+                ) )
+            }
+        </ListGroup>
+    )
+}
+ListView.propTypes = {
+    todos:PropTypes.object.isRequired,
+    toggleSelect:PropTypes.func.isRequired,
+    toggleComplete:PropTypes.func.isRequired
+};
+
+export defualt ListView;
