@@ -18,7 +18,7 @@ const ListItem = ({todo, toggleSelect, toggleComplete}) => {
                             <p>{todo.time.toDateString()}</p>
                         </div>
 
-                        <test></test>
+                       
                         <Button
                         className='ml-auto'
                         color={todo.isComplete ? 'danger' : 'success'}
