@@ -38,7 +38,7 @@ class Todos extends Component {
         isOpenTodoForm: false,
         view:'list',
         filter:'all',
-        isActive:false
+        isActive:'all'
 
 
     }
@@ -91,11 +91,33 @@ class Todos extends Component {
         this.toggleForm()
     }
 
-    handleFilter = (filter,isActive) =>{
+    handleFilter = (filter) =>{
+        if(filter === 'all'){
+            this.setState({
+                isActive:'all'
+            })
+            console.log(filter)
+        }
+        if(filter === 'completed'){
+            this.setState({
+                isActive:'completed'
+            })
+        }
+        if(filter === 'running'){
+            this.setState({
+                isActive:'running'
+            })
+        }
+
+
         this.setState({
             filter
             
         })
+      
+       
+        
+        
     }
 
     changeView = (event) =>{
@@ -112,6 +134,7 @@ class Todos extends Component {
         const todos = this.state.todos.filter( todo => !todo.isComplete)
         this.setState({todos});
     }
+
     reset = () =>{
         this.setState({
             filter:'all',
@@ -133,11 +156,9 @@ class Todos extends Component {
        
         const  { filter } = this.state;
         if(filter=== 'completed'){
-           
             return(todos.filter(
                 todo => todo.isComplete
             )) 
-
         }else if( filter === 'running'){
             return todos.filter(
                 todo => todo.isSelect
