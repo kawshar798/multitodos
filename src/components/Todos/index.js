@@ -8,7 +8,6 @@ import shortid from 'shortid'
 
 class Todos extends Component {
     state = {
-
         todos:[
             {
                 id:'123ds6f',
@@ -37,28 +36,43 @@ class Todos extends Component {
         ],
         searchTerm:'',
         isOpenTodoForm: false,
+        view:'list'
 
 
     }
 
-    toggleSelect = todoId=>{
+    toggleSelect = todoId => {
         const todos = [...this.state.todos];
         const todo = todos.find( item => item.id === todoId)
         todo.isSelect = !todo.isSelect
+        this.setState({todos})
+
 
     }
     toggleComplete = todoId=>{
         
+        const todos = [...this.state.todos];
+        const todo = todos.find( item => item.id === todoId)
+        todo.isComplete = !todo.isComplete
+        this.setState({
+            todos
+        })
     }
+
+
     toggleForm = () => {
         this.setState({
             isOpenTodoForm: !this.state.isOpenTodoForm
         })
 
     }
+
+
     handleSearch = () => {
 
     }
+
+
     createTodo = (todo) => {
 
         todo.id = shortid.generate();
@@ -71,26 +85,55 @@ class Todos extends Component {
         this.toggleForm()
     }
 
+    handleFilter = () =>{}
+    changeView = (event) =>{
+        this.setState({
+            view: event.target.value
+        })
+
+    }
+    clearSelected = () =>{}
+    clearCompleted = () =>{}
+    reset = () =>{}
+
+    getView = () => {
+        return this.state.view === 'list' ? (
+            <ListView
+            todos={this.state.todos}
+             toggleSelect={this.toggleSelect}
+             toggleComplete={this.toggleComplete}
+            />
+        ) : (
+               
+            <TableView
+            todos={this.state.todos}
+            toggleSelect={this.toggleSelect}
+            toggleComplete={this.toggleComplete}
+         />
+        )
+    }
+
     render() {
         return (
             <div>
                 <h1 className='display-4 text-center mb-5'>Todos</h1>
+
                 <Controller 
                 term={this.state.searchTerm}
                 toggleForm={this.toggleForm}
                 handleSearch={this.handleSearch}
+                view={this.state.view}
+                handleFilter={this.handleFilter}
+                changeView={this.changeView}
+                clearSelected={this.clearSelected}
+                clearCompleted={this.clearCompleted}
+                reset={this.reset}
                 />
-                <ListView
-                todos={this.state.todos}
-                 toggleSelect={this.toggleSelect}
-                 toggleComplete={this.toggleComplete}
 
-                />
-                <TableView
-                   todos={this.state.todos}
-                   toggleSelect={this.toggleSelect}
-                   toggleComplete={this.toggleComplete}
-                />
+            <div>
+                {this.getView()}
+            </div>
+            
 
                 <Modal 
                 isOpen={this.state.isOpenTodoForm}

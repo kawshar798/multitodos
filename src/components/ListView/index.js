@@ -5,12 +5,14 @@ import { ListGroupItem, CustomInput, Button, ListGroup } from 'reactstrap';
 
 const ListItem = ({todo, toggleSelect, toggleComplete}) => {
     return(
+        
         <ListGroupItem className='d-flex align-items-center'>
-                        <CustomInput 
-                        type="checkbox"
-                        id={todo.id}
-                        checked={todo.isSelect}
-                        onChange={ () => toggleComplete(todo.id)}
+             {console.log(todo)}
+                        <CustomInput
+                            type='checkbox'
+                            id={todo.id}
+                            checked={todo.isSelect}
+                            onChange={() => toggleSelect(todo.id)}
                         />
 
                         <div className="mx-3">
@@ -41,6 +43,7 @@ ListItem.prototype = {
 const ListView = ({todos,toggleSelect,toggleComplete}) => {
     return (
         <ListGroup>
+           
             {
                 todos.map(todo => (
                     <ListItem 
@@ -55,7 +58,7 @@ const ListView = ({todos,toggleSelect,toggleComplete}) => {
     )
 }
 ListView.propTypes = {
-    todos:PropTypes.object.isRequired,
+    todos:PropTypes.array.isRequired,
     toggleSelect:PropTypes.func.isRequired,
     toggleComplete:PropTypes.func.isRequired
 };
