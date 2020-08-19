@@ -5,7 +5,7 @@ import { Row, Col } from 'reactstrap';
 import FilterController from './FilterController';
 import ViewControler from './ViewFilter';
 import BulkController from './Bulkcontroller';
- const  Controller = ({term,handleSearch,toggleForm,handleFilter,view,changeView,clearSelected,clearCompleted,reset}) => {
+ const  Controller = ({term,handleSearch,toggleForm,handleFilter,view,changeView,clearSelected,clearCompleted,reset,isActive}) => {
     return (
         <div>
             <SearchPanel
@@ -15,7 +15,7 @@ import BulkController from './Bulkcontroller';
             />
             <Row className="my-4">
                 <Col md={{ size: 4}}>
-                    <FilterController handleFilter={handleFilter}  />
+                    <FilterController handleFilter={handleFilter} isActive={isActive}  />
                 </Col>
                 <Col md={{ size: 4}}>
                     <ViewControler

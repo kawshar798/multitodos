@@ -2,13 +2,14 @@ import React from 'react';
 import { Button, ButtonGroup} from "reactstrap";
 import PropTypes from "prop-types";
 
-const FilterController = ({handleFilter}) =>(
+const FilterController = ({handleFilter,isActive}) =>{
+   return(
     <ButtonGroup>
-        <Button onClick={ () => handleFilter('all')}> All</Button>
-        <Button onClick={ () => handleFilter('running')}>Running</Button>
+        <Button onClick={ () => handleFilter('all')} className={isActive?'active':''}>All</Button>
+        <Button onClick={ () => handleFilter('running')} className={isActive?'active':''}>Running</Button>
         <Button onClick={ () => handleFilter('completed')}>Completed</Button>
-    </ButtonGroup>
-)
+    </ButtonGroup>)
+}
 
 FilterController.propTypes = {
     handleFilter : PropTypes.func.isRequired

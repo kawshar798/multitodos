@@ -36,7 +36,9 @@ class Todos extends Component {
         ],
         searchTerm:'',
         isOpenTodoForm: false,
-        view:'list'
+        view:'list',
+        filter:'all',
+        isActive:false
 
 
     }
@@ -68,10 +70,14 @@ class Todos extends Component {
     }
 
 
-    handleSearch = () => {
+    handleSearch = (value) => {
+        this.setState({
+            searchTerm:value
+        })
 
     }
 
+   
 
     createTodo = (todo) => {
 
@@ -85,28 +91,75 @@ class Todos extends Component {
         this.toggleForm()
     }
 
-    handleFilter = () =>{}
+    handleFilter = (filter,isActive) =>{
+        this.setState({
+            filter
+            
+        })
+    }
+
     changeView = (event) =>{
         this.setState({
             view: event.target.value
         })
 
     }
-    clearSelected = () =>{}
-    clearCompleted = () =>{}
-    reset = () =>{}
+    clearSelected = () =>{
+        const todos = this.state.todos.filter( todo => !todo.isSelect);
+        this.setState({todos})
+    }
+    clearCompleted = () =>{
+        const todos = this.state.todos.filter( todo => !todo.isComplete)
+        this.setState({todos});
+    }
+    reset = () =>{
+        this.setState({
+            filter:'all',
+            searchTerm:'',
+            view:'list',
+            isOpenTodoForm:false,
+            isActive:false
+        })
+    }
 
+    performSearch = () =>{
+        return this.state.todos.filter(
+            todo => todo.text.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+        )
+    }
+
+
+    performFilter = (todos) =>{
+       
+        const  { filter } = this.state;
+        if(filter=== 'completed'){
+           
+            return(todos.filter(
+                todo => todo.isComplete
+            )) 
+
+        }else if( filter === 'running'){
+            return todos.filter(
+                todo => todo.isSelect
+            )    
+        }else{
+            return todos;
+        }
+
+    }
     getView = () => {
+       let todos =  this.performSearch();
+        todos =  this.performFilter(todos);
         return this.state.view === 'list' ? (
             <ListView
-            todos={this.state.todos}
+            todos={todos}
              toggleSelect={this.toggleSelect}
              toggleComplete={this.toggleComplete}
             />
         ) : (
                
             <TableView
-            todos={this.state.todos}
+            todos={todos}
             toggleSelect={this.toggleSelect}
             toggleComplete={this.toggleComplete}
          />
@@ -122,6 +175,7 @@ class Todos extends Component {
                 term={this.state.searchTerm}
                 toggleForm={this.toggleForm}
                 handleSearch={this.handleSearch}
+               isActive ={this.state.isActive}
                 view={this.state.view}
                 handleFilter={this.handleFilter}
                 changeView={this.changeView}

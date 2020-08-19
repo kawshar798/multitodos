@@ -32,6 +32,7 @@ const ViewControler = ({view,changeView}) => (
 )
 ViewControler.propTypes = {
     view:PropTypes.string.isRequired,
-    changeView:PropTypes.func.isRequired
+    changeView:PropTypes.func.isRequired,
+    
 }
 export default ViewControler;
